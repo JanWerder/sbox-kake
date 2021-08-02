@@ -2,9 +2,9 @@
 using System;
 using System.Linq;
 
-namespace MinimalExample
+namespace kake
 {
-	partial class MinimalPlayer : Player
+	partial class KakePlayer : Player
 	{
 		public override void Respawn()
 		{
