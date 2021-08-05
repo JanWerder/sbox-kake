@@ -1,8 +1,10 @@
 ﻿
+using kake.Entities;
 using kake.UI;
 using Sandbox;
 using Sandbox.UI.Construct;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -26,6 +28,10 @@ namespace kake
 		// 0 Pre-Game; 1 In-Game; 2-Post-Game
 		[Net] public static int GameState { get; set; } = 0;
 
+		[Net] private static List<kake.KakePlayer> RedPlayers { get; set; } = new();
+
+		[Net] private static List<kake.KakePlayer> BluePlayers { get; set; } = new();
+
 		public KakeGame()
 		{
 
@@ -47,6 +53,26 @@ namespace kake
 			}
 		}
 
+		internal static void changePlayerTeam( KakePlayer kakePlayer, InfoNPCStart.Team team )
+		{
+			if ( team == InfoNPCStart.Team.Red )
+			{
+				BluePlayers.Remove( kakePlayer );
+				if ( !RedPlayers.Contains( kakePlayer ) )
+				{
+					RedPlayers.Add( kakePlayer );
+				}
+			}
+			else if ( team == InfoNPCStart.Team.Blue )
+			{
+				RedPlayers.Remove( kakePlayer );
+				if ( !BluePlayers.Contains( kakePlayer ) )
+				{
+					BluePlayers.Add( kakePlayer );
+				}
+			}
+		}
+
 		[Event.Tick]
 		public void Tick()
 		{
@@ -60,8 +86,12 @@ namespace kake
 					{
 						GameState = 1;
 						GameTimer = 30;
-						EventHud.updateText("");
+						EventHud.updateText( "" );
 					}
+				}
+				else if ( GameState == 1 )
+				{
+					EventHud.updateText( $"Blue: { BluePlayers.Count } Red: { RedPlayers.Count }" );
 				}
 			}
 		}
