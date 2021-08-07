@@ -6,6 +6,7 @@ using Sandbox.UI.Construct;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using static kake.KakeEnums;
 
@@ -112,6 +113,7 @@ namespace kake
 						ResetHUD();
 						GameState = 2;
 						GameTimer = 0;
+						StartRound();
 					}
 					//EventHud.updateText( $"Blue: { BluePlayers.Count } Red: { RedPlayers.Count }" );
 				}
@@ -133,12 +135,39 @@ namespace kake
 					if ( MathF.Ceiling( GameTimer ) <= 0 )
 					{
 						ResetHUD();
+						ResetTeams();
 						GameState = 1; //To Choose Time
 						GameTimer = ChooseTime;
 					}
 				}
 			}
 			
+		}
+
+		private static void StartRound()
+		{
+
+			InfoNPCStart redSpawn = Entity.All.OfType<InfoNPCStart>().ToList().Find(x => x.EntityName == "spawn_red") ;
+			InfoNPCStart blueSpawn = Entity.All.OfType<InfoNPCStart>().ToList().Find( x => x.EntityName == "spawn_blue" );
+
+			Entity seperatorStart = Entity.All.OfType<Entity>().ToList().Find( x => x.EntityName == "seperator_start" );
+			//sepStart.FireOutput( "OnUser1", sep1 );
+
+		}
+
+		private void ResetTeams()
+		{
+			foreach(KakePlayer Player in RedPlayers){
+				Player.ResetTeam();
+			}
+
+			foreach ( KakePlayer Player in BluePlayers )
+			{
+				Player.ResetTeam();
+			}
+
+			RedPlayers.Clear();
+			BluePlayers.Clear();
 		}
 
 		private static void ResetHUD()

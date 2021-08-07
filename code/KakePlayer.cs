@@ -100,6 +100,11 @@ namespace kake
 			EnableDrawing = false;
 		}
 
+		internal void ResetTeam()
+		{
+			CurrentTeam = Team.NoTeam;
+		}
+
 		// dressing up (from Marble)
 
 		ModelEntity pants;
@@ -212,6 +217,6 @@ namespace kake
 				hat.EnableShadowInFirstPerson = true;
 				hat.EnableHideInFirstPerson = true;
 			}
-		}
+		}		
 	}
 }

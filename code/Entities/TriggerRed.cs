@@ -8,9 +8,9 @@ using Sandbox;
 namespace kake
 {
 	[Library( "trigger_red" )]
-	public partial class TriggerRed : BaseTrigger
+	public partial class TriggerRed : TriggerMultiple
 	{
-		public override void StartTouch( Entity other )
+		public override void OnTriggered( Entity other )
 		{
 			if ( other is KakePlayer client )
 			{
