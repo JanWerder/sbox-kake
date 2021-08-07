@@ -20,6 +20,7 @@ namespace kake
 
 				RootPanel.AddChild<EventHud>();
 				RootPanel.AddChild<EventSub>();
+				RootPanel.AddChild<TeamHud>();
 			}
 		}
 	}

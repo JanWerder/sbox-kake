@@ -1,11 +1,16 @@
-﻿using Sandbox;
+﻿using kake.Entities;
+using kake.UI;
+using Sandbox;
 using System;
 using System.Linq;
+using static kake.KakeEnums;
 
 namespace kake
 {
 	partial class KakePlayer : Player
 	{
+		[Net] private KakeEnums.Team CurrentTeam { get; set; } = KakeEnums.Team.NoTeam;
+
 		public override void Respawn()
 		{
 			SetModel( "models/citizen/citizen.vmdl" );
@@ -36,14 +41,16 @@ namespace kake
 
 		internal void ToTeamRed()
 		{
-			Log.Info( this.GetModelName() + " has changed to Team Red!" );
-			KakeGame.changePlayerTeam(this, kake.Entities.InfoNPCStart.Team.Red);
+			//Log.Info( this.GetModelName() + " has changed to Team Red!" );
+			CurrentTeam = Team.Red;
+			KakeGame.changePlayerTeam( this, Team.Red );
 		}
 
 		internal void ToTeamBlue()
 		{
-			Log.Info( this.GetModelName() + " has changed to Team Blue!" );
-			KakeGame.changePlayerTeam( this, kake.Entities.InfoNPCStart.Team.Blue );
+			//Log.Info( this.GetModelName() + " has changed to Team Blue!" );
+			CurrentTeam = Team.Blue;
+			KakeGame.changePlayerTeam( this, Team.Blue );
 		}
 
 		/// <summary>
@@ -65,11 +72,24 @@ namespace kake
 			if ( IsServer && Input.Pressed( InputButton.Attack1 ) )
 			{
 				var ragdoll = new ModelEntity();
-				ragdoll.SetModel( "models/citizen/citizen.vmdl" );  
+				ragdoll.SetModel( "models/citizen/citizen.vmdl" );
 				ragdoll.Position = EyePos + EyeRot.Forward * 40;
 				ragdoll.Rotation = Rotation.LookAt( Vector3.Random.Normal );
 				ragdoll.SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 				ragdoll.PhysicsGroup.Velocity = EyeRot.Forward * 1000;
+			}
+
+			if ( (KakeGame.GameState == 1 || KakeGame.GameState == 2) && CurrentTeam != Team.NoTeam )
+			{
+				TeamHud.updateText( $"{ CurrentTeam }" );
+				if ( CurrentTeam == Team.Blue )
+				{
+					TeamHud.SetClass( "blueTeam", "redTeam" );
+				}
+				else if ( CurrentTeam == Team.Red )
+				{
+					TeamHud.SetClass( "redTeam", "blueTeam" );
+				}
 			}
 		}
 

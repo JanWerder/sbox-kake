@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using static kake.KakeEnums;
 
 //
 // You don't need to put things in a namespace, but it doesn't hurt.
@@ -25,12 +26,20 @@ namespace kake
 	{
 		[Net] public static float GameTimer { get; set; } = 30;
 
-		// 0 Pre-Game; 1 In-Game; 2-Post-Game
+		// 0 Pre-Game; 1 Choose Time; 2 In-Game; 3 Post-Game
 		[Net] public static int GameState { get; set; } = 0;
+
+		[Net] public static int PrizePool { get; set; } = 0;
 
 		[Net] private static List<kake.KakePlayer> RedPlayers { get; set; } = new();
 
 		[Net] private static List<kake.KakePlayer> BluePlayers { get; set; } = new();
+
+		public static int ChooseTime { get; set; } = 15;
+
+		public static int PostGameTime { get; set; } = 10;
+
+		public static int PreGameTime { get; set; } = 5;
 
 		public KakeGame()
 		{
@@ -45,17 +54,20 @@ namespace kake
 				// UI panels. You don't have to create your HUD via an entity,
 				// this just feels like a nice neat way to do it.
 				new KakeHudEntity();
+
+				GameTimer = PreGameTime;
 			}
 
 			if ( IsClient )
 			{
 				Log.Info( "Kake Has Created Clientside!" );
 			}
+
 		}
 
-		internal static void changePlayerTeam( KakePlayer kakePlayer, InfoNPCStart.Team team )
+		internal static void changePlayerTeam( KakePlayer kakePlayer, Team team )
 		{
-			if ( team == InfoNPCStart.Team.Red )
+			if ( team == Team.Red )
 			{
 				BluePlayers.Remove( kakePlayer );
 				if ( !RedPlayers.Contains( kakePlayer ) )
@@ -63,7 +75,7 @@ namespace kake
 					RedPlayers.Add( kakePlayer );
 				}
 			}
-			else if ( team == InfoNPCStart.Team.Blue )
+			else if ( team == Team.Blue )
 			{
 				RedPlayers.Remove( kakePlayer );
 				if ( !BluePlayers.Contains( kakePlayer ) )
@@ -78,22 +90,62 @@ namespace kake
 		{
 			if ( IsServer )
 			{
-				if ( GameState == 0 )
+				if ( GameState == 0 ) //Pre-Game
 				{
 					GameTimer -= 1.0f / 60.0f;
-					EventHud.updateText( MathF.Ceiling( GameTimer ).ToString() );
+					EventHud.updateText( $"Pre-Game {  MathF.Ceiling( GameTimer ).ToString()  }" );
 					if ( MathF.Ceiling( GameTimer ) <= 0 )
 					{
+						ResetHUD();
 						GameState = 1;
-						GameTimer = 30;
-						EventHud.updateText( "" );
+						GameTimer = ChooseTime;
 					}
 				}
-				else if ( GameState == 1 )
+				else if ( GameState == 1 ) //Choose Time
 				{
-					EventHud.updateText( $"Blue: { BluePlayers.Count } Red: { RedPlayers.Count }" );
+					GameTimer -= 1.0f / 60.0f;
+					PrizePool = (BluePlayers.Count + RedPlayers.Count) * 5;
+					EventHud.updateText( $"Choose your side: { MathF.Ceiling( GameTimer ).ToString() }" );
+					EventSub.updateText( $"Prize Pool: { PrizePool }" );
+					if ( MathF.Ceiling( GameTimer ) <= 0 )
+					{
+						ResetHUD();
+						GameState = 2;
+						GameTimer = 0;
+					}
+					//EventHud.updateText( $"Blue: { BluePlayers.Count } Red: { RedPlayers.Count }" );
+				}
+				else if ( GameState == 2 ) //In-Game
+				{
+					GameTimer += 1.0f / 60.0f;
+					EventHud.updateText( $"Fighting: { MathF.Ceiling( GameTimer ).ToString() }" );
+					if ( MathF.Ceiling( GameTimer ) >= 10 ) //Dummy
+					{
+						ResetHUD();
+						GameState = 3;
+						GameTimer = PostGameTime;
+					}
+				}
+				else if ( GameState == 3 ) //Post-Game
+				{
+					GameTimer -= 1.0f / 60.0f;
+					EventHud.updateText( $"Post-Game: { MathF.Ceiling( GameTimer ).ToString() }" );
+					if ( MathF.Ceiling( GameTimer ) <= 0 )
+					{
+						ResetHUD();
+						GameState = 1; //To Choose Time
+						GameTimer = ChooseTime;
+					}
 				}
 			}
+			
+		}
+
+		private static void ResetHUD()
+		{
+			EventHud.updateText( "" );
+			EventSub.updateText( "" );
+			TeamHud.updateText( "" );
 		}
 
 		/// <summary>

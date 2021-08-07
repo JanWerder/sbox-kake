@@ -1,37 +1,55 @@
-text.title
-{
-	font-family: Poppins;
-	font-size: 50px;
-	font-weight: 900;
-	color: white;
-	position: absolute;
-	left: 100px;
-	top: 100px;
-	text-shadow: 5px 5px 50px rgba( black, 0.8 );
+text.title {
+    font-family: Poppins;
+    font-size: 50px;
+    font-weight: 900;
+    color: white;
+    position: absolute;
+    left: 100px;
+    top: 100px;
+    text-shadow: 5px 5px 50px rgba( black, 0.8 );
 }
 
-EventSub
-{
-	width: 100%;
-	top: 80px;
-	font-family: Poppins;
-	font-size: 20px;
-	font-weight: 500;
-	justify-content: center;
-	color: white;
-	position: absolute;
-	text-shadow: 1px 1px 5px black;
+EventSub {
+    width: 100%;
+    top: 80px;
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 500;
+    justify-content: center;
+    color: white;
+    position: absolute;
+    text-shadow: 1px 1px 5px black;
 }
 
-EventHud
-{
-	width: 100%;
-	top: 25px;
-	font-family: Poppins;
-	font-size: 32px;
-	font-weight: 600;
-	justify-content: center;
-	color: white;
-	position: absolute;
-	text-shadow: 1px 1px 5px black;
+EventHud {
+    width: 100%;
+    top: 25px;
+    font-family: Poppins;
+    font-size: 32px;
+    font-weight: 600;
+    justify-content: center;
+    color: white;
+    position: absolute;
+    text-shadow: 1px 1px 5px black;
+}
+
+TeamHud {
+    width: 100%;
+    top: 25px;
+    font-family: Poppins;
+    font-size: 32px;
+    font-weight: 600;
+    justify-content: left;
+    color: white;
+    position: absolute;
+    text-shadow: 1px 1px 5px black;
+    margin-left: 15px;
+}
+
+.blueTeam {
+    color: cornflowerblue;
+}
+
+.redTeam {
+    color: red;
 }

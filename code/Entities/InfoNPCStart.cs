@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static kake.KakeEnums;
 
 namespace kake.Entities
 {
@@ -12,12 +13,6 @@ namespace kake.Entities
 	[Hammer.EntityTool( "NPC Spawn", "Player", "Defines a point where NPCs are spawned" )]
 	public class InfoNPCStart : Entity
 	{
-		public enum Team
-		{
-			Red,
-			Blue
-		}
-
 		[Property( Title = "NPC Team" )] public Team NPCTeam { get; set; } = Team.Blue;
 	}
 }

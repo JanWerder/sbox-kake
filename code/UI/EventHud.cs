@@ -48,4 +48,33 @@ namespace kake.UI
 			txt = text;
 		}
 	}
+
+	public partial class TeamHud : Panel
+	{
+		public static Label label;
+		public static string txt = "";
+
+		public TeamHud()
+		{
+			label = Add.Label( "100", "value" );
+		}
+
+		public override void Tick()
+		{
+			label.Text = $"{txt}";
+		}
+
+		[ClientRpc]
+		public static void updateText( string text )
+		{
+			txt = text;
+		}
+
+		[ClientRpc]
+		public static void SetClass( string addClass, string removeClass )
+		{
+			label.AddClass( addClass );
+			label.RemoveClass( removeClass );
+		}
+	}
 }
