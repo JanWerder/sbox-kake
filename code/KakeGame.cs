@@ -124,6 +124,7 @@ namespace kake
 					if ( MathF.Ceiling( GameTimer ) >= 10 ) //Dummy
 					{
 						ResetHUD();
+						ResetMap();
 						GameState = 3;
 						GameTimer = PostGameTime;
 					}
@@ -135,7 +136,7 @@ namespace kake
 					if ( MathF.Ceiling( GameTimer ) <= 0 )
 					{
 						ResetHUD();
-						ResetTeams();
+						ResetTeams();						
 						GameState = 1; //To Choose Time
 						GameTimer = ChooseTime;
 					}
@@ -150,9 +151,19 @@ namespace kake
 			InfoNPCStart redSpawn = Entity.All.OfType<InfoNPCStart>().ToList().Find(x => x.EntityName == "spawn_red") ;
 			InfoNPCStart blueSpawn = Entity.All.OfType<InfoNPCStart>().ToList().Find( x => x.EntityName == "spawn_blue" );
 
-			Entity seperatorStart = Entity.All.OfType<Entity>().ToList().Find( x => x.EntityName == "seperator_start" );
-			//sepStart.FireOutput( "OnUser1", sep1 );
+			PlatformEntity seperatorStart1 = Entity.All.OfType<PlatformEntity>().ToList().Find( x => x.EntityName == "seperator_1" );
+			PlatformEntity seperatorStart2 = Entity.All.OfType<PlatformEntity>().ToList().Find( x => x.EntityName == "seperator_2" );
+			seperatorStart1.StartMovingForward();
+			seperatorStart2.StartMovingForward();
 
+		}
+
+		private static void ResetMap()
+		{
+			PlatformEntity seperatorStart1 = Entity.All.OfType<PlatformEntity>().ToList().Find( x => x.EntityName == "seperator_1" );
+			PlatformEntity seperatorStart2 = Entity.All.OfType<PlatformEntity>().ToList().Find( x => x.EntityName == "seperator_2" );
+			seperatorStart1.StartMovingBackwards();
+			seperatorStart2.StartMovingBackwards();
 		}
 
 		private void ResetTeams()
