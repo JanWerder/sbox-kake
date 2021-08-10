@@ -12,7 +12,6 @@ metadata
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 	wait(float) : "Delay before reset" : 1 : "Amount of time, in seconds, after the trigger_multiple has triggered before it can be triggered again. If set to -1, it will never trigger again (in which case you should just use a trigger_once). This affects OnTrigger output."
 	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
-	filtername(filterclass) : "Filtername" :  : "TODO: Filter to use to see if activator triggers me. See filter_activator_name for more explanation."
 	enable_shadows(boolean) [ group="Render Properties" ] : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 	spawnflags(flags) = [
 		1 : "Clients" : 1
@@ -52,7 +51,6 @@ metadata
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 	wait(float) : "Delay before reset" : 1 : "Amount of time, in seconds, after the trigger_multiple has triggered before it can be triggered again. If set to -1, it will never trigger again (in which case you should just use a trigger_once). This affects OnTrigger output."
 	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
-	filtername(filterclass) : "Filtername" :  : "TODO: Filter to use to see if activator triggers me. See filter_activator_name for more explanation."
 	enable_shadows(boolean) [ group="Render Properties" ] : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 	spawnflags(flags) = [
 		1 : "Clients" : 1

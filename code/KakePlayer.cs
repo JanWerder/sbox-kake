@@ -53,6 +53,13 @@ namespace kake
 			KakeGame.changePlayerTeam( this, Team.Blue );
 		}
 
+		internal void ToNoTeam()
+		{
+			//Log.Info( this.GetModelName() + " has changed to Team Blue!" );
+			CurrentTeam = Team.NoTeam;
+			KakeGame.changePlayerTeam( this, Team.NoTeam );
+		}
+
 		/// <summary>
 		/// Called every tick, clientside and serverside.
 		/// </summary>

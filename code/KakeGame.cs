@@ -84,6 +84,11 @@ namespace kake
 					BluePlayers.Add( kakePlayer );
 				}
 			}
+			else if ( team == Team.NoTeam )
+			{
+				RedPlayers.Remove( kakePlayer );
+				BluePlayers.Remove( kakePlayer );
+			}
 		}
 
 		[Event.Tick]
@@ -136,19 +141,19 @@ namespace kake
 					if ( MathF.Ceiling( GameTimer ) <= 0 )
 					{
 						ResetHUD();
-						ResetTeams();						
+						ResetTeams();
 						GameState = 1; //To Choose Time
 						GameTimer = ChooseTime;
 					}
 				}
 			}
-			
+
 		}
 
 		private static void StartRound()
 		{
 
-			InfoNPCStart redSpawn = Entity.All.OfType<InfoNPCStart>().ToList().Find(x => x.EntityName == "spawn_red") ;
+			InfoNPCStart redSpawn = Entity.All.OfType<InfoNPCStart>().ToList().Find( x => x.EntityName == "spawn_red" );
 			InfoNPCStart blueSpawn = Entity.All.OfType<InfoNPCStart>().ToList().Find( x => x.EntityName == "spawn_blue" );
 
 			PlatformEntity seperatorStart1 = Entity.All.OfType<PlatformEntity>().ToList().Find( x => x.EntityName == "seperator_1" );
@@ -168,17 +173,17 @@ namespace kake
 
 		private void ResetTeams()
 		{
-			foreach(KakePlayer Player in RedPlayers){
-				Player.ResetTeam();
-			}
+			//foreach(KakePlayer Player in RedPlayers){
+			//	Player.ResetTeam();
+			//}
 
-			foreach ( KakePlayer Player in BluePlayers )
-			{
-				Player.ResetTeam();
-			}
+			//foreach ( KakePlayer Player in BluePlayers )
+			//{
+			//	Player.ResetTeam();
+			//}
 
-			RedPlayers.Clear();
-			BluePlayers.Clear();
+			//RedPlayers.Clear();
+			//BluePlayers.Clear();
 		}
 
 		private static void ResetHUD()

@@ -8,7 +8,7 @@ using Sandbox;
 namespace kake
 {
 	[Library( "trigger_blue" )]
-	public partial class TriggerBlue: TriggerMultiple
+	public partial class TriggerBlue : TriggerMultiple
 	{
 		public override void OnTriggered( Entity other )
 		{
@@ -18,6 +18,24 @@ namespace kake
 			}
 
 			base.StartTouch( other );
+		}
+
+		public override void StartTouch( Entity other )
+		{
+			if ( other is KakePlayer client )
+			{
+				client.ToTeamBlue();
+			}
+			base.StartTouch( other );
+		}
+
+		public override void EndTouch( Entity other )
+		{
+			if ( other is KakePlayer client )
+			{
+				client.ToNoTeam();
+			}
+			base.EndTouch( other );
 		}
 	}
 }
